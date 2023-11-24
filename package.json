@@ -1,86 +1,136 @@
 {
-  "name": "wa-csvToTs",
-  "displayName": "wa-csvToTs",
-  "description": "csv保存时生成ts文件",
+  "name": "wa-window-vue",
+  "displayName": "wa-window-vue",
+  "description": "vscode菜单扩展(vue版)",
   "icon": "img/avatar.png",
-  "version": "0.0.2",
+  "version": "0.2.2",
   "engines": {
     "vscode": "^1.61.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onLanguage:csv"
-  ],
+  "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "wa-csv-to-ts(目标csv文件保存自动生成langules.ts文件)",
+      "title": "wa-window-vue(窗口工具)",
       "properties": {
-        "csvDefaultLan": {
+        "windowBaiduAppid": {
           "type": "string",
-          "default": "zh-CN",
-          "description": "首选默认语言"
+          "default": "",
+          "description": "百度翻译appid"
         },
-        "csvPath": {
+        "windowBaiduKey": {
           "type": "string",
-          "default": "src/locales/locales.csv",
-          "description": "目标csv文件"
-        },
-        "csvTransformPath": {
-          "type": "string",
-          "default": "src/locales",
-          "description": "转换的文件输出地址"
-        },
-        "csvTransformLanauges": {
-          "type": "array",
-          "default": [
-            "zh-CN",
-            "zh-TW",
-            "en-US",
-            "ja-JP",
-            "ko-KR"
-          ],
-          "description": "需要转换哪几种类型"
+          "default": "",
+          "description": "百度翻译唯一key"
         }
       }
-    }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "wa-sideMenus-vue",
+          "title": "侧边工具栏(vue)",
+          "icon": "img/avatar.png"
+        }
+      ]
+    },
+    "views": {
+      "wa-sideMenus-vue": [
+        {
+          "type": "webview",
+          "id": "wa-translate",
+          "name": "翻译"
+        },
+        {
+          "type": "webview",
+          "id": "wa-aes-decrypt",
+          "name": "aes解密"
+        },
+        {
+          "type": "webview",
+          "id": "wa-json2ts",
+          "name": "json转ts"
+        }
+      ]
+    },
+    "menus": {
+      "explorer/context": [],
+      "editor/title/context": []
+    },
+    "languages": [],
+    "commands": []
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js",
-    "build": "vsce package",
+    "watch": "vite build --watch",
+    "package": "vite build --mode production --sourcemap hidden --config ./extension.vite.config.ts",
     "create-publisher": "vsce create-publisher",
-    "vpub": "vsce publish"
+    "vpub": "vsce publish",
+    "release": "release-it",
+    "build": "vsce package && vue-tsc && vite build",
+    "dev": "yarn vite",
+    "preview": "vite preview",
+    "prepare": "husky install",
+    "prettier": "prettier -c --write **/*",
+    "format": "prettier --write \"./**/*.{html,vue,ts,js,json,md}\"",
+    "lint": "npm run tsc && npm run lint:demo && npm run lint:md && npm run lint:script && npm run lint:site",
+    "lint:components": "eslint --fix --ext .jsx,.js,.ts,.tsx ./components",
+    "lint:script": "eslint . --ext '.js,.jsx,.ts,.tsx'",
+    "lint:site": "eslint -c ./.eslintrc.js --fix --ext .jsx,.js,.ts,.tsx,vue ./site",
+    "lint:style": "stylelint \"{site,components}/**/*.scss\" --syntax scss",
+    "create:project": "node ./scripts/project/create.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
     "@types/vscode": "^1.61.0",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vscode/test-electron": "^2.3.2",
-    "eslint": "^8.41.0",
+    "@vue/tsconfig": "^0.7.0",
+    "babel-loader": "^9.2.1",
     "glob": "^8.1.0",
+    "husky": "^8.0.3",
+    "inquirer": "^12.3.0",
     "mocha": "^10.2.0",
-    "ts-loader": "^9.4.3",
-    "typescript": "^5.1.3",
-    "webpack": "^5.85.0",
-    "webpack-cli": "^5.1.1"
+    "release-it": "^17.0.0",
+    "tailwindcss": "^3.4.17",
+    "ts-loader": "^9.5.1",
+    "typescript": "~5.6.2",
+    "unplugin-auto-import": "^0.19.0",
+    "unplugin-vue-components": "^0.28.0",
+    "vite": "^6.0.5",
+    "vue-tsc": "^2.2.0"
   },
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@types/crypto-js": "^4.2.2",
+    "@types/md5": "^2.3.5",
+    "axios": "^1.6.7",
+    "chalk": "^5.4.1",
+    "copy-to-clipboard": "^3.3.3",
+    "cross-fetch": "^4.0.0",
+    "crypto-js": "^4.2.0",
+    "fs": "^0.0.1-security",
+    "json-to-ts": "^2.1.0",
+    "md5": "^2.3.0",
+    "postcss": "^8.0.0",
+    "sass": "^1.64.1",
+    "vue": "^3.5.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdmu-gaoqi/wa-window.git"
   },
   "publisher": "wa",
-  "license": "SEE LICENSE IN LICENSE.txt"
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "author": "gaoqi <1224362143@qq.com>"
 }

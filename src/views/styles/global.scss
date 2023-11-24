@@ -1,0 +1,48 @@
+// html {
+//   font-size: 16px;
+//   -webkit-overflow-scrolling: touch;
+//   min-width: 320px;
+//   height: 100%;
+// }
+
+// html {
+//   font-size: calc(100vw / 23.4375);
+// }
+
+// html.pc-app {
+//   font-size: calc(100vw / 120);
+// }
+
+html {
+  a {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  ul {
+    li {
+      list-style: none;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    /* 纵向滚动条*/
+    height: 6px;
+    /* 横向滚动条 */
+    background-color: #fff;
+  }
+
+  /*定义滚动条轨道 内阴影*/
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: #eee;
+  }
+
+  /*定义滑块 内阴影*/
+  ::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: #bbb;
+    border-radius: 10px;
+  }
+}
