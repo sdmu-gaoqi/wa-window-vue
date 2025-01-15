@@ -3,7 +3,7 @@
   "displayName": "wa-window-vue",
   "description": "vscode菜单扩展(vue版)",
   "icon": "img/icon.png",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.61.0"
   },
