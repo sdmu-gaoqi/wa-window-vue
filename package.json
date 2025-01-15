@@ -2,7 +2,7 @@
   "name": "wa-window-vue",
   "displayName": "wa-window-vue",
   "description": "vscode菜单扩展(vue版)",
-  "icon": "img/avatar.png",
+  "icon": "img/icon.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.61.0"
@@ -34,7 +34,7 @@
         {
           "id": "wa-sideMenus-vue",
           "title": "侧边工具栏(vue)",
-          "icon": "img/avatar.png"
+          "icon": "img/icon.svg"
         }
       ]
     },
