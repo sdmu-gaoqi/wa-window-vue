@@ -1,24 +1,39 @@
 import { aesDecrypt } from "@/utils/aes";
-import EInput from "@/views/components/global/EInput/EInput";
-import Label from "@/views/components/global/Label/Label";
 import Result from "@/views/components/global/Result/Result";
 import Select from "@/views/components/global/Select/Select";
 
 const Demo = defineComponent({
   setup() {
     const state = reactive({
-      target: "",
-      result: "",
+      target: localStorage.getItem("target") || "",
+      result: localStorage.getItem("result") || "",
       aesKey: localStorage.getItem("aesKey") || "",
       digit: 16,
     });
     return () => {
       return (
         <div>
-          <Label label="需要解码数据" />
-          <textarea class="textarea" v-model:value={state.target} />
-          <EInput v-model:value={state.aesKey} label="aesKey" />
-          <Label label="位数" />
+          <div class="label">aesKey</div>
+          <input
+            class="input"
+            v-model:value={state.aesKey}
+            value={state.aesKey}
+            onChange={(e) => {
+              state.aesKey = e.target.value?.trim();
+            }}
+            placeholder="请输入"
+          />
+          <div class="label">目标数据</div>
+          <textarea
+            class="textarea"
+            rows={5}
+            placeholder="请输入"
+            value={state.target}
+            onChange={(e) => {
+              state.target = e.target.value?.trim();
+            }}
+          />
+          <div class="label">位数</div>
           <Select
             value={state.digit}
             options={[
@@ -34,6 +49,8 @@ const Demo = defineComponent({
                 digit: state.digit,
               });
               localStorage.setItem("aesKey", state.aesKey);
+              localStorage.setItem("target", state.target);
+              localStorage.setItem("result", res);
               state.result = res;
             }}
           >

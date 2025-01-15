@@ -7,8 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    EInput: typeof import('./../views/components/global/EInput/EInput.tsx')['default']
-    Label: typeof import('./../views/components/global/Label/Label.tsx')['default']
     Result: typeof import('./../views/components/global/Result/Result.tsx')['default']
     Select: typeof import('./../views/components/global/Select/Select.tsx')['default']
   }

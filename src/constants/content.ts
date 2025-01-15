@@ -1,9 +1,9 @@
 export const baiduLangs = [
-  { label: "中文", command: "zh" },
-  { label: "英语", command: "en" },
-  { label: "日语", command: "jp" },
-  { label: "韩语	", command: "kor" },
-  { label: "繁体中文", command: "cht" },
+  { label: "中文", value: "zh" },
+  { label: "英语", value: "en" },
+  { label: "日语", value: "jp" },
+  { label: "韩语	", value: "kor" },
+  { label: "繁体中文", value: "cht" },
 ];
 
 export enum PostmessageType {

@@ -27,5 +27,7 @@ create:project
 yarn build
 ```
 
+先生成 cjs 的 extension.js,再生成浏览器可运行的 esm
+
 2. 点击 仍然调试
    todo: 解决.vscode/tasks.json 配置

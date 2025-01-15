@@ -10,9 +10,9 @@ const Select = defineComponent({
     return () => {
       return (
         <select
-          class="w-[100%] my-[4px] h-[20px]"
+          class="select"
           onChange={(e) => {
-            emit("update:value", e);
+            emit("update:value", e.target.value);
           }}
         >
           {props.options?.map(({ label, value }) => {

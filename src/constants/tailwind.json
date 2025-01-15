@@ -1,0 +1,65 @@
+{
+  ".ell": {
+    "overflow": "hidden",
+    "textOverflow": "ellipsis",
+    "whiteSpace": "nowrap",
+    "wordBreak": "keep-all"
+  },
+  ".btn": {
+    "display": "flex",
+    "justify-content": "center",
+    "align-items": "center",
+    "outline": "none",
+    "height": "30px",
+    "font-size": "var(--vscode-font-size)",
+    "width": "100%",
+    "cursor": "pointer",
+    "color": "var(--vscode-button-foreground)",
+    "background-color": "var(--vscode-button-background)",
+    "border": "none",
+    "margin": "5px 0",
+    "user-select": "none",
+
+    "&:hover": {
+      "background": "var(--vscode-button-hoverBackground)",
+      "color": "var(--vscode-button-foreground)"
+    },
+    "&:active": {
+      "background": "var(--vscode-button-hoverBackground)",
+      "color": "var(--vscode-button-foreground)"
+    }
+  },
+  ".textarea": {
+    "width": "100%",
+    "margin": "4px 0",
+    "background-color": "var(--vscode-input-background)",
+    "resize": "none",
+    "color": "var(--vscode-foreground)",
+    "outline": "none",
+    "border-radius": "2px"
+  },
+  ".input": {
+    "width": "100%",
+    "height": "26px",
+    "background-color": "var(--vscode-input-background)",
+    "color": "var(--vscode-foreground)",
+    "outline": "none",
+    "border-radius": "2px"
+  },
+  ".label": {
+    "color": "var(--vscode-sideBarSectionHeader-foreground)",
+    "margin": "2px 0"
+  },
+  ".select": {
+    "background-color": "var(--vscode-input-background)",
+    "color": "var(--vscode-foreground)",
+    "outline": "none",
+    "border-radius": "2px",
+    "width": "100%",
+    "height": "26px",
+
+    "option": {
+      "color": "var(--vscode-foreground)"
+    }
+  }
+}

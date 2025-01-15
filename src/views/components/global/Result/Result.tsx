@@ -13,7 +13,7 @@ const Result = defineComponent({
           >
             点击复制结果
           </div>
-          <div class="text-[--vscode-textBlockQuote-background]">
+          <div class="text-[--vscode-textLink-activeForeground]">
             {props.value || ""}
           </div>
         </>

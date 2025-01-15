@@ -10,3 +10,11 @@
   </body>
 </html>
 <script type="module" src="./main.ts"></script>
+<script>
+  const vscode = acquireVsCodeApi();
+  window.vscode = vscode;
+  window.$webview = {
+    baiduAppid: "${baiduAppid}",
+    baiduAppKey: "${baiduAppKey}",
+  };
+</script>
