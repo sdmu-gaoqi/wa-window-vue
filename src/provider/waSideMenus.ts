@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import { log } from "../utils/log";
 
 export interface Item extends vscode.TreeItem {
   label: string;

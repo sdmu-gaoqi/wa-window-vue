@@ -36,16 +36,6 @@
           "type": "string",
           "default": "",
           "description": "有道翻译key"
-        },
-        "windowGoogelAppid": {
-          "type": "string",
-          "default": "",
-          "description": "谷歌翻译appid"
-        },
-        "windowGoogelKey": {
-          "type": "string",
-          "default": "",
-          "description": "谷歌翻译key"
         }
       }
     },
@@ -134,6 +124,7 @@
     "@release-it/conventional-changelog": "^8.0.1",
     "@types/crypto-js": "^4.2.2",
     "@types/md5": "^2.3.5",
+    "@vscode/vsce": "^3.2.2",
     "axios": "^1.6.7",
     "chalk": "^5.4.1",
     "copy-to-clipboard": "^3.3.3",

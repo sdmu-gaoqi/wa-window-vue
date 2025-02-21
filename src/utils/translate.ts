@@ -1,7 +1,6 @@
 import md5 from "md5";
 import vscode from "vscode";
 import { TranslateApp, translateAppKV } from "../constants/content";
-import { log } from "./log";
 
 const getTranslateUrl = (
   app: TranslateApp,
@@ -15,18 +14,25 @@ const getTranslateUrl = (
 ) => {
   const { currentContent, currentLang, targetLang, appid, appkey } = config;
   const salt = +new Date();
-  const sign = md5(`${appid}${currentContent}${salt}${appkey}`);
+  const baiduSign = md5(`${appid}${currentContent}${salt}${appkey}`);
+  const curtime = +new Date();
+  const contentLength = currentContent.length;
+  const youdaoInput =
+    contentLength > 20
+      ? `${currentContent.slice(0, 10)}${contentLength}${currentContent.slice(
+          contentLength - 10
+        )}`
+      : currentContent;
+  const youdaoSign = md5(`${appid}${currentContent}${salt}${curtime}${appkey}`);
   switch (app) {
     case TranslateApp.百度翻译:
       return `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${currentContent}&from=${getTranslateLan(
         currentLang
       )}&to=${getTranslateLan(
         targetLang
-      )}&appid=${appid}&salt=${salt}&sign=${sign}`;
+      )}&appid=${appid}&salt=${salt}&sign=${baiduSign}`;
     case TranslateApp.有道翻译:
-      return "http://dict.youdao.com/json/dictentry";
-    case TranslateApp.谷歌翻译:
-      return "https://translate.googleapis.com/translate_a/single";
+      return `https://openapi.youdao.com/api?q=${youdaoInput}&from=${currentLang}&to=${targetLang}&appKey=${appkey}&salt=${salt}&sign=${youdaoSign}&signType=v3&curtime=${curtime}`;
   }
 };
 
@@ -77,8 +83,6 @@ export const translateServer = async ({
   const appid = String(config.get(appConfig.appid));
   const appkey = String(config.get(appConfig.key));
 
-  log(app);
-
   if (!appid || !appkey) {
     return "请在vscode设置中配置插件对应的appid和key";
   }
@@ -92,20 +96,14 @@ export const translateServer = async ({
   });
   switch (app) {
     case TranslateApp.百度翻译:
-      const salt = +new Date();
-      const sign = md5(`${appid}${currentContent}${salt}${appkey}`);
-      const url = `${translateUrl}?q=${currentContent}&from=${getTranslateLan(
-        currentLang
-      )}&to=${getTranslateLan(
-        targetLang
-      )}&appid=${appid}&salt=${salt}&sign=${sign}`;
+      const baiduData = await fetch(translateUrl).then((res) => res.json());
 
-      const data = await fetch(url).then((res) => res.json());
-
-      return data?.trans_result?.[0]?.dst;
+      return (
+        baiduData?.trans_result?.[0]?.dst || `错误信息${baiduData?.error_code}`
+      );
     case TranslateApp.有道翻译:
-      break;
-    case TranslateApp.谷歌翻译:
-      break;
+      const youdaoData = await fetch(translateUrl).then((res) => res.json());
+
+      return youdaoData?.translation?.[0] || `错误信息${youdaoData?.errorCode}`;
   }
 };
