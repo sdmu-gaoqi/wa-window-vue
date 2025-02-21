@@ -26,6 +26,26 @@
           "type": "string",
           "default": "",
           "description": "百度翻译唯一key"
+        },
+        "windYoudaoAppid": {
+          "type": "string",
+          "default": "",
+          "description": "有道翻译appid"
+        },
+        "windYoudaoKey": {
+          "type": "string",
+          "default": "",
+          "description": "有道翻译key"
+        },
+        "windowGoogelAppid": {
+          "type": "string",
+          "default": "",
+          "description": "谷歌翻译appid"
+        },
+        "windowGoogelKey": {
+          "type": "string",
+          "default": "",
+          "description": "谷歌翻译key"
         }
       }
     },

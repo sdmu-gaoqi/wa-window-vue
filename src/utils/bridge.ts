@@ -1,4 +1,4 @@
-import { PostmessageType } from "../constants/content";
+import { PostmessageType, TranslateApp } from "../constants/content";
 
 const bridge = {
   // vscode listen webview
@@ -15,6 +15,7 @@ const bridge = {
     currentContent: string;
     currentLang: string;
     targetLang: string;
+    app: TranslateApp;
   }) => {
     window.vscode.postMessage({
       type: PostmessageType.翻译,
@@ -22,6 +23,7 @@ const bridge = {
         currentContent: state.currentContent,
         currentLang: state.currentLang,
         targetLang: state.targetLang,
+        app: state.app,
       },
     });
   },

@@ -1,4 +1,9 @@
-import { baiduLangs, PostmessageType } from "@/constants/content";
+import {
+  baiduLangs,
+  PostmessageType,
+  TranslateApp,
+  translateApp,
+} from "@/constants/content";
 import bridge from "@/utils/bridge";
 import Result from "@/views/components/global/Result/Result";
 import Select from "@/views/components/global/Select/Select";
@@ -39,6 +44,7 @@ const Demo = defineComponent({
       loading: false,
       content: localStorage.getItem("translateContent") || "",
       transform: 0,
+      app: TranslateApp.百度翻译,
     });
 
     onMounted(
@@ -57,6 +63,7 @@ const Demo = defineComponent({
           currentLang: state.current,
           targetLang: state.target,
           currentContent: state.content,
+          app: state.app,
         });
         localStorage.setItem("translateContent", state.content);
       };
@@ -83,6 +90,12 @@ const Demo = defineComponent({
           <Select
             v-model:value={state.target}
             options={baiduLangs}
+            placeholder="请选择"
+          />
+          <div class="label">应用</div>
+          <Select
+            v-model:value={state.app}
+            options={translateApp}
             placeholder="请选择"
           />
           <div class="label">是否转格式</div>
