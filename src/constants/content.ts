@@ -12,6 +12,8 @@ export enum PostmessageType {
   解密 = "aes",
   解密完成 = "aesComplete",
   打开页面 = "openPage",
+  storageGet = "storageGet",
+  storageSet = "storageSet",
 }
 
 export enum TranslateApp {

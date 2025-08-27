@@ -64,6 +64,11 @@
           "type": "webview",
           "id": "wa-json2ts",
           "name": "json转ts"
+        },
+        {
+          "type": "webview",
+          "id": "wa-memos",
+          "name": ""
         }
       ]
     },

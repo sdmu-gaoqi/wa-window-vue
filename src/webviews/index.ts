@@ -1,8 +1,8 @@
-import vscode from "vscode";
-import path from "path";
 import fs from "fs";
-import bridge from "../utils/bridge";
+import path from "path";
+import vscode from "vscode";
 import { PostmessageType } from "../constants/content";
+import bridge from "../utils/bridge";
 
 type ChatWebviewConfig = {
   name: string;
@@ -16,12 +16,14 @@ export class ChatWebview implements vscode.WebviewViewProvider {
   tsx: (webview: vscode.WebviewView) => void = () => {};
   isProduction: boolean = false;
   config: ChatWebviewConfig;
+  context?: vscode.ExtensionContext = undefined;
 
   constructor(c: ChatWebviewConfig) {
     const { context } = c;
     this.config = c;
     this.isProduction =
       context.extensionMode === vscode.ExtensionMode.Production;
+    this.context = context;
   }
 
   resolveWebviewView(webviewView: vscode.WebviewView): void | Thenable<void> {
@@ -55,5 +57,25 @@ export class ChatWebview implements vscode.WebviewViewProvider {
     content = content.replaceAll('src="', `src="${distPath}`);
     content = content.replaceAll('href="', `href="${distPath}`);
     return content;
+  }
+
+  getStorage(key: string, type: "global" | "workspace" = "workspace") {
+    const fn =
+      type === "global"
+        ? this.context?.globalState
+        : this.context?.workspaceState;
+    return fn?.get(key);
+  }
+
+  setStorage(
+    key: string,
+    value: unknown,
+    type: "global" | "workspace" = "workspace"
+  ) {
+    const fn =
+      type === "global"
+        ? this.context?.globalState
+        : this.context?.workspaceState;
+    fn?.update(key, value);
   }
 }
