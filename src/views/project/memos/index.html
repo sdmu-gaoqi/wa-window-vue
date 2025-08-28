@@ -6,15 +6,23 @@
     <title>demo</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <h1>标题是: {{ myTitle }} -- {{ myTitle }} 哈哈
+      <h1>
+      <h3>内容是: {{ myContent }} 嘻嘻
+      </h3>
+    </div>
   </body>
 </html>
-<script type="module" src="./main.ts"></script>
+<script src="./index.js"></script>
 <script>
-  const vscode = acquireVsCodeApi();
-  window.vscode = vscode;
-  window.$webview = {
-    baiduAppid: "${baiduAppid}",
-    baiduAppKey: "${baiduAppKey}",
-  };
+  const vm = new Vue({
+    el: "#app",
+    data: {
+      myTitle: "标题",
+      myContent: "内容",
+    },
+  });
+
+  window.vm = vm;
 </script>
