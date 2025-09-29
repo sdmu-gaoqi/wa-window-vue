@@ -32,7 +32,6 @@ export class ChatWebview implements vscode.WebviewViewProvider {
     webviewView.webview.options = {
       enableScripts: true,
     };
-
     // 监听web端传来的消息
     this.webview.webview.onDidReceiveMessage((message: any) => {
       const fn = receiveMessage?.[message.type as PostmessageType];

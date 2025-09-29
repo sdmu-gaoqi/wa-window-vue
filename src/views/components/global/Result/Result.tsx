@@ -5,15 +5,13 @@ const Result = defineComponent({
     return () => {
       return (
         <>
+          <div class="cursor-pointer mr-6 text-[12px]">点击结果可复制</div>
           <div
-            class="cursor-pointer mr-6 text-[12px]"
+            class="text-[--vscode-textLink-activeForeground] cursor-pointer"
             onClick={() => {
               copy(props.value || "");
             }}
           >
-            点击复制结果
-          </div>
-          <div class="text-[--vscode-textLink-activeForeground]">
             {props.value || ""}
           </div>
         </>

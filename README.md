@@ -7,8 +7,8 @@ vue 开发的 vscode 窗口工具插件
 ### 翻译
 
 - 需要配合翻译插件使用
-- 需要在后台去申请对应的 appid
-  ![image](./img/set.png)
+- 需要在后台去申请对应的 appid./
+  ![image](img/set.png)
 
 ### aes 解密
 

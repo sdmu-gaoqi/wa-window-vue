@@ -1,6 +1,15 @@
 import md5 from "md5";
 import vscode from "vscode";
 import { TranslateApp, translateAppKV } from "../constants/content";
+import { obj2url } from "./obj2url";
+import { generateYoudaoSignature, truncate } from "./youdao";
+
+const thirdPartyUrl = {
+  [TranslateApp.百度翻译]: "http://api.fanyi.baidu.com/api/trans/vip/translate",
+  [TranslateApp.有道翻译]: "https://openapi.youdao.com/api",
+};
+
+// 处理待翻译文本，超过20字符只取前20
 
 const getTranslateUrl = (
   app: TranslateApp,
@@ -12,28 +21,42 @@ const getTranslateUrl = (
     appkey: string;
   }
 ) => {
+  const remoteUrl = thirdPartyUrl[app];
   const { currentContent, currentLang, targetLang, appid, appkey } = config;
   const salt = +new Date();
   const baiduSign = md5(`${appid}${currentContent}${salt}${appkey}`);
   const curtime = +new Date();
-  const contentLength = currentContent.length;
-  const youdaoInput =
-    contentLength > 20
-      ? `${currentContent.slice(0, 10)}${contentLength}${currentContent.slice(
-          contentLength - 10
-        )}`
-      : currentContent;
-  const youdaoSign = md5(`${appid}${currentContent}${salt}${curtime}${appkey}`);
+  const youdaoInput = truncate(currentContent);
+  const youdaoSign = generateYoudaoSignature(appid, appkey, currentContent);
+  let searchUrl = "";
+
   switch (app) {
     case TranslateApp.百度翻译:
-      return `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${currentContent}&from=${getTranslateLan(
-        currentLang
-      )}&to=${getTranslateLan(
-        targetLang
-      )}&appid=${appid}&salt=${salt}&sign=${baiduSign}`;
+      searchUrl = obj2url({
+        q: currentContent,
+        from: getTranslateLan(currentLang),
+        to: getTranslateLan(targetLang),
+        appid,
+        salt,
+        sign: baiduSign,
+      });
+      break;
     case TranslateApp.有道翻译:
-      return `https://openapi.youdao.com/api?q=${youdaoInput}&from=${currentLang}&to=${targetLang}&appKey=${appkey}&salt=${salt}&sign=${youdaoSign}&signType=v3&curtime=${curtime}`;
+      searchUrl = obj2url({
+        q: youdaoInput,
+        from: getTranslateLan(currentLang),
+        to: getTranslateLan(targetLang),
+        appKey: appkey,
+        salt,
+        sign: youdaoSign,
+        curtime,
+      });
+      break;
   }
+
+  const translateUrl = `${remoteUrl}?${searchUrl}`;
+
+  return translateUrl;
 };
 
 /**

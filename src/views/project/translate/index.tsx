@@ -56,6 +56,12 @@ const Demo = defineComponent({
       })
     );
 
+    const quickSwap = () => {
+      const { target, current } = state;
+      state.current = target;
+      state.target = current;
+    };
+
     return () => {
       const translate = () => {
         state.loading = true;
@@ -80,7 +86,10 @@ const Demo = defineComponent({
               state.content = e.target.value?.trim();
             }}
           />
-          <div class="label">当前语言</div>
+          <a class="cursor-pointer" onClick={quickSwap}>
+            快速互换
+          </a>
+          <div class="label">当前语言A</div>
           <Select
             v-model:value={state.current}
             options={baiduLangs}
