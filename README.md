@@ -1,45 +1,36 @@
-# wa-window-vue
+<h1>wa-window-vue</h1>
 
-vue 开发的 vscode 窗口工具插件
+</p>vscode 窗口工具插件<p>
 
 ## 功能说明
 
 ### 翻译
 
-- 需要配合翻译插件使用
-- 需要在后台去申请对应的 appid./
+文本翻译,支持百度和有道
+
+- 需要在百度翻译后台或有道后台创建应用,获取到 `appId`, `appKey`
+
+- 然后再在设置 → 扩展 → `wa-window-vue`
   ![image](img/set.png)
 
-### aes 解密
+### AES 解密
 
-### json 转 ts
+配置`aesKey`后,输入需要解密的数据点击**解码**得到解密后的数据
 
-## 开发说明
+### json 转类型生命
 
-### 本地启动
+将`json`数据转换成`ts`中的类型声明
 
-```bash
-yarn dev
+比如填充上内容
+
+```
+{'a': '哈哈'}
 ```
 
-访问路径
-http://localhost:5173/你的项目名/
+点击**开始转换**后获得
 
-### 创建项目
-
-```bash
-create:project
 ```
-
-### 调试
-
-1. 打包
-
-```bash
-yarn build
+interface RootObject {
+  a: string;
+}
 ```
-
-先生成 cjs 的 extension.js,再生成浏览器可运行的 esm
-
-2. 点击 仍然调试
-   todo: 解决.vscode/tasks.json 配置
