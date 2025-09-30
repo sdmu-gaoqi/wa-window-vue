@@ -25,38 +25,48 @@ const getTranslateUrl = (
   const { currentContent, currentLang, targetLang, appid, appkey } = config;
   const salt = +new Date();
   const baiduSign = md5(`${appid}${currentContent}${salt}${appkey}`);
-  const curtime = +new Date();
   const youdaoInput = truncate(currentContent);
-  const youdaoSign = generateYoudaoSignature(appid, appkey, currentContent);
+  const {
+    sign: youdaoSign,
+    ts: curtime,
+    salt: youdaoSalt,
+  } = generateYoudaoSignature(appid, appkey, currentContent);
   let searchUrl = "";
+  let searchData = {};
 
   switch (app) {
     case TranslateApp.百度翻译:
-      searchUrl = obj2url({
+      searchData = {
         q: currentContent,
         from: getTranslateLan(currentLang),
         to: getTranslateLan(targetLang),
         appid,
         salt,
         sign: baiduSign,
-      });
+      };
+      searchUrl = obj2url(searchData);
       break;
     case TranslateApp.有道翻译:
-      searchUrl = obj2url({
+      searchData = {
         q: youdaoInput,
         from: getTranslateLan(currentLang),
         to: getTranslateLan(targetLang),
-        appKey: appkey,
-        salt,
+        appKey: appid,
+        salt: youdaoSalt,
         sign: youdaoSign,
         curtime,
-      });
+        signType: "v3",
+      };
+      searchUrl = obj2url(searchData);
       break;
   }
 
   const translateUrl = `${remoteUrl}?${searchUrl}`;
 
-  return translateUrl;
+  return {
+    translateUrl,
+    searchData,
+  };
 };
 
 /**
@@ -110,7 +120,7 @@ export const translateServer = async ({
     return "请在vscode设置中配置插件对应的appid和key";
   }
 
-  const translateUrl = getTranslateUrl(app, {
+  const { translateUrl, searchData } = getTranslateUrl(app, {
     currentContent,
     currentLang,
     targetLang,
@@ -125,7 +135,10 @@ export const translateServer = async ({
         baiduData?.trans_result?.[0]?.dst || `错误信息${baiduData?.error_code}`
       );
     case TranslateApp.有道翻译:
-      const youdaoData = await fetch(translateUrl).then((res) => res.json());
+      const youdaoData = await fetch(translateUrl, {
+        method: "post",
+        body: JSON.stringify(searchData),
+      }).then((res) => res.json());
 
       return youdaoData?.translation?.[0] || `错误信息${youdaoData?.errorCode}`;
   }
